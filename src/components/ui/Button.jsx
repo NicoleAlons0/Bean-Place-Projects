@@ -1,3 +1,11 @@
+import { cn } from "../../lib/utils";
+
+const variants = {
+  primary: "bg-[var(--brown-700)] text-[var(--cream)]",
+  accent: "bg-[var(--amber)] text-[var(--brown-900)]",
+  outline: "border border-[var(--brown-600)] text-[var(--brown-600)]",
+};
+
 const sizes = {
   sm: "h-9 px-4 text-xs",
 

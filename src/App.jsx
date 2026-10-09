@@ -29,7 +29,9 @@
 // - ContactSection
 
 /* --- YOUR IMPORTS GO HERE --- */
-
+import { useState } from "react";
+import NavBar from "./components/NavBar";
+import HeroSection from "./components/HeroSection";
 // STEP 2: Create and export the App component
 // Use: export default function App() { ... }
 //
@@ -52,44 +54,48 @@
 // HINT: The id attributes (like id="shop") are anchor targets
 // for the navigation links in the NavBar.
 
-/* --- YOUR COMPONENT CODE GOES HERE --- */
-
-// imports go below here
-
 export default function App() {
-    return(
-        <div className="app">
-            {/*NavBar */}
-            {/*Hero Section */}
-            <section className="hero bg-hero">
-                <div className="hero-grid">
+  const [theme, setTheme] = useState("light");
+  const [cartCount, setCartCount] = useState(0);
 
-                </div>
-            </section>
-            {/*Feature/Carousel */}
-            <section className="features bg-features" id="shop">
+  const toggleCart = () => setCartCount((current) => current + 1);
 
-            </section>
-            {/*Product Showcase */}
-            <section className="bg-cta">
+  return (
+    <div className="app">
+      {/* NAVBAR */}
+      <NavBar
+        toggleCart={toggleCart}
+        cartCount={cartCount}
+        theme={theme}
+        onToggleTheme={() =>
+          setTheme((current) => (current === "light" ? "dark" : "light"))
+        }
+      />
 
-            </section>
-            {/*CTA */}
-            <section className="bg-cta">
-
-            </section>
-
-            {/*About */}
-            <section className="bg-cta" id="about">
-            </section>
-            {/* Contact */}
-            <section className="bg-cta" id="contact">
-
-            </section>
-            {/*footer */}
-            <section className="bg-footer">
-
-            </section>
+      {/* Hero */}
+      <section className="hero bg-hero">
+        <div className="hero-grid">
+          <HeroSection />
         </div>
-    )
+      </section>
+
+      {/* Feature / Carousel */}
+      <section className="features bg-features" id="shop"></section>
+
+      {/* Product Showcase */}
+      <section className="bg-cta"></section>
+
+      {/* CTA */}
+      <section className="bg-cta"></section>
+
+      {/* About */}
+      <section className="bg-cta" id="about"></section>
+
+      {/* Contact */}
+      <section className="bg-cta" id="contact"></section>
+
+      {/* Footer */}
+      <section className="bg-footer"></section>
+    </div>
+  );
 }
