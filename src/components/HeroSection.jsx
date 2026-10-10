@@ -110,10 +110,11 @@ export default function HeroSection() {
     <>
       {/* left - Text*/}
       <div id="home" className="hero-text-column">
-        <motion.div>
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
+        >
           <Badge variant="outline" className="mb-5">
             Premium Coffee Beans - Roasted Fresh Daily
           </Badge>
@@ -121,8 +122,8 @@ export default function HeroSection() {
         <motion.h1
           className="h1-stack"
           style={{ margin: 0, perspective: "600px" }}
-          variant={textVariants}
-          intial="hidden"
+          variants={textVariants}
+          initial="hidden"
           animate="visible"
         >
           <motion.span
@@ -152,7 +153,7 @@ export default function HeroSection() {
         <motion.p
           className="lead"
           style={{ marginTop: 10 }}
-          initial={{ opactity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
@@ -184,8 +185,8 @@ export default function HeroSection() {
         {/*Trust Indicators*/}
         <motion.div
           className="hero-trust"
-          intial={{ opacity: 0 }}
-          animate={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.1 }}
         >
           <span>★★★★★ 4.9/5 from 2,400+ customers</span>
@@ -205,6 +206,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1.35, x: 0 }}
           transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
         ></motion.img>
+
         {/* Floating Price Badge */}
         <motion.div
           className="hero-floating-badge"
@@ -216,10 +218,11 @@ export default function HeroSection() {
             type: "spring",
             stiffness: 200,
           }}
-        ></motion.div>
-        <span className="hero-floating-badge-label"> FROM</span>
-        <span className="hero-floating-badge-price">$14.99</span>
-        <span className="hero-floating-badge-label">Per Bag</span>
+        >
+          <span className="hero-floating-badge-label"> FROM</span>
+          <span className="hero-floating-badge-price">$14.99</span>
+          <span className="hero-floating-badge-label">Per Bag</span>
+        </motion.div>
       </div>
     </>
   );

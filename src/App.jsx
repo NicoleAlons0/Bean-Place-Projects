@@ -32,6 +32,7 @@
 import { useState } from "react";
 import NavBar from "./components/NavBar";
 import HeroSection from "./components/HeroSection";
+import RibbonTicker from "./components/RibbonTicker";
 // STEP 2: Create and export the App component
 // Use: export default function App() { ... }
 //
@@ -79,8 +80,13 @@ export default function App() {
         </div>
       </section>
 
+        {/* Ribbon Ticker */}
+        <RibbonTicker />
+
       {/* Feature / Carousel */}
-      <section className="features bg-features" id="shop"></section>
+      <section className="features bg-features" id="shop">
+
+      </section>
 
       {/* Product Showcase */}
       <section className="bg-cta"></section>

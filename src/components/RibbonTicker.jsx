@@ -23,7 +23,7 @@
 // STEP 1: Import motion from "framer-motion"
 
 /* --- YOUR IMPORTS GO HERE --- */
-
+import { motion } from "framer-motion";
 
 // STEP 2: Create and export the RibbonTicker component
 // export default function RibbonTicker() { ... }
@@ -66,3 +66,40 @@
 // Look for the @keyframes ribbon-scroll rule.
 
 /* --- YOUR COMPONENT CODE GOES HERE --- */
+export default function RibbonTicker() {
+  const blends = [
+    "Jamaican Blue Mountain",
+    "Yiragacheffe",
+    "Tanzaina Peaberry",
+    "Vietnamese Santos",
+    "Brazilian Santos",
+    "Costa Rica Tarrazu",
+    "Guatemala Antigua",
+    "Kenya AA",
+    "Sumatra Mandheling",
+    "Kona",
+    "Colombian Supremo",
+    "Ethiopian Harrar",
+    "Arabian Mocha",
+    "Red Sulawesi",
+  ];
+  const items = [...blends, ...blends];
+  return (
+    <div className="ribbon-ticker-container">
+      <div className="ribbon-ticker">
+        <div className="ribbon-track">
+          {items.map((name, i) => (
+            <motion.span
+              key={i}
+              className="ribbon-item"
+              whileHover={{ scale: 1.1, color: "#f0b955" }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {name} <span className="ribbon-dot">✦</span>
+            </motion.span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
