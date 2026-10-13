@@ -33,6 +33,8 @@ import { useState } from "react";
 import NavBar from "./components/NavBar";
 import HeroSection from "./components/HeroSection";
 import RibbonTicker from "./components/RibbonTicker";
+import FeaturesSection from "./components/FeaturesSection";
+import ProductShowcase from "./components/ProductShowcase";
 // STEP 2: Create and export the App component
 // Use: export default function App() { ... }
 //
@@ -60,7 +62,7 @@ export default function App() {
   const [cartCount, setCartCount] = useState(0);
 
   const toggleCart = () => setCartCount((current) => current + 1);
-
+  const addToCart = (product) => setCartCount((current) => current + 1);
   return (
     <div className="app">
       {/* NAVBAR */}
@@ -80,16 +82,17 @@ export default function App() {
         </div>
       </section>
 
-        {/* Ribbon Ticker */}
-        <RibbonTicker />
+      {/* Ribbon Ticker */}
+      <RibbonTicker />
 
       {/* Feature / Carousel */}
       <section className="features bg-features" id="shop">
-
+        <FeaturesSection />
       </section>
-
       {/* Product Showcase */}
-      <section className="bg-cta"></section>
+      <section className="bg-cta">
+        <ProductShowcase products={productCatalog} addToCart={addToCart} />
+      </section>
 
       {/* CTA */}
       <section className="bg-cta"></section>

@@ -35,13 +35,13 @@
 import { useEffect, useRef, useState } from "react";
 import imgRedSulawesi from "../assets/Red-Sulawesi-Bag.png";
 import imgUrigacheffe from "../assets/Urigacheffe-Bag.png";
-import imgTazaniaPeaberry from "../assets/Tazania-Peaberry.png";
-import VietnameseRobusta from "../assets/Vietnamese-Robusta.png";
+import imgTanzaniaPeaberry from "../assets/Tanzania-Peaberry-Bag.png";
+import imgVietnameserobusta from "../assets/Vietnamese-Robusta.png";
 import imgKenyaAA from "../assets/Kenya-AA-Bag.png";
 import imgGuatemalaAntigua from "../assets/Guatemala-Antigua-Bag.png";
 import imgPanamaGeisha from "../assets/Panama-Geisha.png";
 import imgKona from "../assets/Kona-Bag.png";
-import imgEthiopianHarrar from "../assets/Ethopian-Harrar-Bag.png";
+import imgEthiopianHarrar from "../assets/Ethiopian-Harrar-Bag.png";
 import imgCostaRicaTarrazu from "../assets/Costa-Rica-Tarrazu-Bag.png";
 import imgJamaicanBlueMountain from "../assets/Jamaican-Blue-Mountain-Bag.png";
 import imgSumatraMandheling from "../assets/Sumatra-Mandheling-Bag.png";
@@ -175,5 +175,48 @@ function ImageRow({ images, offset = 0 }) {
         </div>
       ))}
     </div>
+  );
+}
+
+export default function FeaturesSection() {
+  const sectionRef = useRef(null);
+  const [offsets, setOffsets] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      // Progress: 0 when section enters bottom, 1 when it leaves the top
+      const progress = 1 - rect.bottom / (viewH + rect.height);
+      const p = Math.max(0, Math.min(1, progress));
+
+      // Each row, over at different speeds/ directions based on scroll progress
+      // Scale ranges to viewport width so it works with all screen sizes.
+      const range = Math.min(window.innerWidth * 0.5, 600);
+      setOffsets([
+        -p * range,
+        // row 1: slides left
+        p * range - range,
+        // row 2: slides right (starts offset left)
+        -p * range * 0.7,
+        // Row 3: slides left slower
+      ]);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <section className="carousel-gallery-section" ref={sectionRef}>
+      <div className="carousel-gallery-container">
+        <ImageRow images={row1} offset={offsets[0]} />
+        <ImageRow images={row2} offset={offsets[1]} />
+        <ImageRow images={row3} offset={offsets[2]} />
+      </div>
+    </section>
   );
 }

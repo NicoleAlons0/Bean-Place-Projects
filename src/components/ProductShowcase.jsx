@@ -31,8 +31,11 @@
 //   imgPanamaGeisha, imgKona, imgGuatemalaAntigua
 
 /* --- YOUR IMPORTS GO HERE --- */
-
-
+import { motion as Motion } from "framer-motion";
+import ScrollReveal, { StaggerContainer, StaggerItem } from "./ui/ScrollReveal";
+import Badge from "./ui/Badge";
+import Button from "./ui/Button";
+import Separator from "./ui/Separator";
 // STEP 2: Define the products array (outside the component)
 // Each product is an object with these properties:
 //   { name, origin, price, roast, notes, image, badge }
@@ -101,3 +104,74 @@
 //   </div>
 
 /* --- YOUR COMPONENT CODE GOES HERE --- */
+
+export default function ProductShowcase({ product = [], addToCart }) {
+  return (
+    <div className="product-showcase">
+      <ScrollReveal animation="fadeUp">
+        <Badge variant="accent" className="mb-4">
+          Curated Selection
+        </Badge>
+      </ScrollReveal>
+
+      <ScrollReveal animation="fadeUp" delay={0.1}>
+        <h2 className="product-showcase-title">
+          Shop Our <br />
+          <span className="muted">Finest Beans</span>
+        </h2>
+      </ScrollReveal>
+      <ScrollReveal animation="fadeIn" delay={0.15}>
+        <Separator className="ms-auto mb-4 max-w-48" />
+      </ScrollReveal>
+      <ScrollReveal animation="fadeUp" delay={0.15}>
+        <p className="product-showcase-subtitle">
+          Hand-selected single-origin coffees, roasted to order. Each bag ships
+          within 48 hours for maximum freshness.
+        </p>
+      </ScrollReveal>
+      <StaggerContainer staggerDelay={0.1} className="product-grid">
+        {product.map((product) => (
+          <StaggerItem key={product.name} animation="fadeUp">
+            <motion.div
+              className="product-card"
+              whileHover={{ y: -8, transition: { duration: 0.25 } }}
+            >
+              <div className="product-card-image">
+                <img src={product.image} alt={product.name} loading="lazy" />
+                {product.badge && (
+                  <span className="product-badge">{product.badge}</span>
+                )}
+              </div>
+              <div className="product-card-info">
+                <div className="product-card-header">
+                  <h3>{product.name}</h3>
+                  <span className="product-price">{product.price}</span>
+                </div>
+                <p className="product-origin">
+                  {product.origin} · {product.roast} Roast
+                </p>
+                <p className="product-notes">{product.notes}</p>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="w-full mt-3"
+                  onClick={() => addToCart(product)}
+                >
+                  {" "}
+                  Add to Cart
+                </Button>
+              </div>
+            </motion.div>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
+      <ScrollReveal animation="fadeUp" delay={0.2}>
+        <div className="product-showcase-cta">
+          <Button variant="accent" size="lg">
+            View all coffee
+          </Button>
+        </div>
+      </ScrollReveal>
+    </div>
+  );
+}
