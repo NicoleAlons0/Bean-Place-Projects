@@ -29,12 +29,25 @@
 // - ContactSection
 
 /* --- YOUR IMPORTS GO HERE --- */
-import { useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import HeroSection from "./components/HeroSection";
 import RibbonTicker from "./components/RibbonTicker";
 import FeaturesSection from "./components/FeaturesSection";
 import ProductShowcase from "./components/ProductShowcase";
+import CtaSection from "./components/CtaSection";
+
+import imgEthiopianHarrar from "./assets/Ethiopian-Harrar-Bag.png";
+
+import imgColombianSupremo from "./assets/Colombian-Supremo-Bag.png";
+
+import imgKenyaAA from "./assets/Kenya-AA-Bag.png";
+
+import imgPanamaGeisha from "./assets/Panama-Geisha.png";
+
+import imgKona from "./assets/Kona-Bag.png";
+
+import imgGuatemalaAntigua from "./assets/Guatemala-Antigua-Bag.png";
 // STEP 2: Create and export the App component
 // Use: export default function App() { ... }
 //
@@ -57,12 +70,118 @@ import ProductShowcase from "./components/ProductShowcase";
 // HINT: The id attributes (like id="shop") are anchor targets
 // for the navigation links in the NavBar.
 
+const productCatalog = [
+  {
+    id: 1,
+    name: "Ethiopian Harrar",
+    origin: "Ethiopia",
+    price: 18.99,
+    roast: "Medium",
+    notes: "Blueberry, dark chocolate, wine",
+    image: imgEthiopianHarrar,
+    badge: "Best Seller",
+  },
+  {
+    id: 2,
+    name: "Colombian Supremo",
+    origin: "Colombia",
+    price: 16.99,
+    roast: "Medium Dark",
+    notes: "Caramel, nutty smooth finish",
+    image: imgColombianSupremo,
+    badge: null,
+  },
+  {
+    id: 3,
+    name: "Kenya AA",
+    origin: "Kenya",
+    price: 21.99,
+    roast: "Light",
+    notes: "Bright citrus, black currant, floral",
+    image: imgKenyaAA,
+    badge: "Staff Pick",
+  },
+  {
+    id: 4,
+    name: "Panama Geigha",
+    origin: "Panama",
+    price: 34.99,
+    roast: "Light",
+    notes: "Jasmine, bergamot, tropical fruit",
+    image: imgPanamaGeigha,
+    badge: "Limited",
+  },
+  {
+    id: 5,
+    name: "Kona",
+    origin: "Hawaii",
+    price: 29.99,
+    roast: "Medium",
+    notes: "Brown sugar, macadamia, mild acidity",
+    image: imgKona,
+    badge: null,
+  },
+  {
+    id: 6,
+    name: "Guatemala Antigua",
+    origin: "Guatemala",
+    price: 17.99,
+    roast: "Dark",
+    notes: "Cocoa, spice, smokey sweetness",
+    image: imgGuatemalaAntigua,
+    badge: "New",
+  },
+];
 export default function App() {
-  const [theme, setTheme] = useState("light");
-  const [cartCount, setCartCount] = useState(0);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "light";
+    const savedTheme = window.localStorage.getItem("theme");
+    if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
 
-  const toggleCart = () => setCartCount((current) => current + 1);
-  const addToCart = (product) => setCartCount((current) => current + 1);
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleCart = () => setCartOpen((open) => !open);
+
+  const addToCart = (product) => {
+    setCartItems((current) => {
+      const existing = current.find((item) => item.id === product.id);
+      if (existing) {
+        return current.map((item) =>
+          item.id === product.id ? { ...item, qty: item.qty + 1 } : item,
+        );
+      }
+      return [...current, { ...product, qty: 1 }];
+    });
+  };
+
+  const updateCartQty = (id, delta) => {
+    setCartItems((current) =>
+      current
+        .map((item) =>
+          item.id === id
+            ? { ...item, qty: Math.max(0, item.qty + delta) }
+            : item,
+        )
+        .filter((item) => item.qty > 0),
+    );
+  };
+  const removeFromCart = (id) => {
+    setCartItems((current) => current.filter((item) => item.id !== id));
+  };
+  const cartCount = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.qty, 0),
+    [cartItems],
+  );
+
   return (
     <div className="app">
       {/* NAVBAR */}
@@ -95,7 +214,9 @@ export default function App() {
       </section>
 
       {/* CTA */}
-      <section className="bg-cta"></section>
+      <section className="bg-cta">
+        <CtaSection />
+      </section>
 
       {/* About */}
       <section className="bg-cta" id="about"></section>
