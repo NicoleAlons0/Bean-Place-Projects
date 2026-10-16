@@ -241,16 +241,148 @@ const contactChannels = [
 ];
 
 //Tile card with mouse tracking
-function tiltCard({Children, className, href, target, rel}) {
-    const ref =useRef(null);
-    const x= useMotionValue(0);
-    const y= useMotionValue(0);
-    const rotateX = useSpring(useTransform(y,[-0.5, 0.5], [6, -6]), {
-        stiffness: 200,
-        damping: 20,
-    });
-    const rotateY = useSpring(useTransform(x,[-0.5, 0.5],[6, -6]), {
-        stiffness: 200,
-        damping:20,
-    });
+function tiltCard({ Children, className, href, target, rel }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), {
+    stiffness: 200,
+    damping: 20,
+  });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [6, -6]), {
+    stiffness: 200,
+    damping: 20,
+  });
+
+  function handleMouse(e) {
+    const rect = ref.current.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    Y.set((e.clienty - rect.top) / rect.height - 0.5);
+  }
+  function handleLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  const Tag = href ? motion.a : motion.div;
+
+  return (
+    <Tag
+      ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      onMouseMove={handleMouse}
+      onMouseLeave={handleLeave}
+      style={{ rotateX, rotateY, transformPerspective: 600 }}
+      className={className}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+// Contact Form with Animations
+function ContactFormInLine() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [status, setStatus] = useState(null); // null | sending | sent | error
+  const [touched, setTouched] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [e.target.name]: true }));
+  };
+  const handleBlur = (e) => {
+    e.preventDefault();
+    setTouched({ name: true, email: true, subject: true, message: true });
+
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setStatus("sending");
+
+    try {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        setStatus("sent");
+        setFormData({name: "", email: "", subject: "", message: ""});
+        setTouched({});
+        setTimeout(() => setStatus(null), 4000);
+    } catch {
+        setStatus("error");
+        setTimeout(() => setStatus(null), 4000);
+    }
+  };
+
+  return (
+    <motion.form
+    onSubmit={handleSubmit}
+    className="contact-form-card"
+    initial={{opacity: 0, y: 40}}
+    whileInView={{opactiy: 1, y:0}}
+    viewPort={{once:true}}
+    transition={{duration: 0.6, delay:0.1}}>
+    {/* Form Header */}
+    <div className="mb-6">
+        <h3 className="contact-form-title"> Send a message</h3>
+        <p className="contact-form-subtitle">
+            We'd love to hear from you. Fill out the form and we'll get back within 24 hours.
+        </p>
+    </div>
+    <div className="contact-form-grid">
+        <Input
+        label="YourName"
+        id="contact-name"
+        name="name"
+        placeholder="John Doe"
+        className="placeholder:text-white"
+        value={formData.name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched.name && !formData.name ? "Name is Required" : undefined} />
+
+        <Input
+        label="Email Address"
+        id="contact-email"
+        name="email"
+        type="email"
+        placeholder="JohnDoe@example.com"
+        className="placeholder:text-white"
+        value={formData.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched.name && !formData.name ? "Email is Required" : undefined} />
+    </div>
+
+    <div className="mt-4">
+        <Input 
+        label="Subject"
+        id="contact-subject"
+        name="subject"
+        placeholder="What's this about?"
+        className="placeholder:text-white"
+        value={formData.subject}
+        onChange={handleChange}
+        />
+    </div>
+
+    <div className="mt-4">
+        <Textarea
+        label="Message"
+        id="contact-message"
+        name="message"
+        placeholder="Tell us what's on your mind..."
+        rows={5}
+        value={formData.message}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched.message && !formData.message ? "Message is required"
+        : undefined}
+        />
+    </div>
+    </motion.form>
+  )
 }
