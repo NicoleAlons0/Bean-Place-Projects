@@ -13,7 +13,7 @@ export default function AnimatedCounter({
   const springVal = useSpring(0, { duration: duration * 1000 });
   const display = useTransform(
     springVal,
-    (v) => `$(prefix)$Math.round(v)}${suffix}`,
+    (v) => `${prefix}${Math.round(v)}${suffix}`,
   );
   if (isInView) {
     springVal.set(target);

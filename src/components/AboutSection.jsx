@@ -28,7 +28,7 @@
 //   storeBarista from "../assets/store_barista.jpeg"
 
 /* --- YOUR IMPORTS GO HERE --- */
-import Badge from ".ui/Badge";
+import Badge from "./ui/Badge";
 import Card, { CardHeader, CardContent } from "./ui/Card";
 import Separator from "./ui/Separator";
 import ScrollReveal, { StaggerContainer, StaggerItem } from "./ui/ScrollReveal";
@@ -182,6 +182,28 @@ export default function AboutSection() {
         </ScrollReveal>
       </div>
       {/* Value Cards */}
+      <StaggerContainer staggerDelay={0.15} className="about-cards-grid">
+        {values.map((v) => (
+          <StaggerItem key={v.title} animation="fadeUp">
+            <Card glass className="about-value-card">
+              <CardHeader>
+                <span className="about-item-icon">{v.icon}</span>
+                <h3
+                  className="text-lg font-bold"
+                  style={{ color: "var(--cream)" }}
+                >
+                  {v.title}
+                </h3>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm leading-relaxed text-white/70">
+                  {v.description}
+                </p>
+              </CardContent>
+            </Card>
+          </StaggerItem>
+        ))}
+      </StaggerContainer>
     </div>
   );
 }

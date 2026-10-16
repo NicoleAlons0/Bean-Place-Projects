@@ -187,12 +187,14 @@ export default function FeaturesSection() {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const viewH = window.innerHeight;
+
       // Progress: 0 when section enters bottom, 1 when it leaves the top
       const progress = 1 - rect.bottom / (viewH + rect.height);
       const p = Math.max(0, Math.min(1, progress));
 
       // Each row, over at different speeds/ directions based on scroll progress
       // Scale ranges to viewport width so it works with all screen sizes.
+
       const range = Math.min(window.innerWidth * 0.5, 600);
       setOffsets([
         -p * range,

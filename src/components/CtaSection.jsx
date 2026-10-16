@@ -164,7 +164,7 @@ export default function CtaSection() {
                 </p>
               </div>
             </div>
-            <div className="cta-download-step-index">
+            <div className="cta-download-step">
               <span className="cta-download-step-index">2</span>
               <div>
                 <strong>Choose your platform.</strong>
@@ -180,7 +180,7 @@ export default function CtaSection() {
           <a href="#" className="cta-store-badge app-store-badge">
             <span className="badge-icon">
               <img
-                src={appStoreLog}
+                src={appStoreLogo}
                 alt="Apple App Store"
                 className="w-5 h-5"
               />
@@ -217,23 +217,19 @@ export default function CtaSection() {
             <span className="cta-stat-label"> Origins</span>
           </div>
 
-          <div className="cta-stat-divider">
-
-            <div className="cta-stat">
-              <span className="cta-stat-number">
-                <AnimatedCounter target={2400} suffix="+" />
-              </span>
-              <span className="cta-stat-label">Happy Customers</span>
-            </div>
-            <div className="cta-stat-divider" />
-
-            <div className="cta-stat">
-              <span className="cta-stat-number">
-                <AnimatedCounter target={48} suffix="hr" />
-              </span>
-
-              <span className="cta-stat-label">Fresh Delivery</span>
-            </div>
+          <div className="cta-stat-divider" />
+          <div className="cta-stat">
+            <span className="cta-stat-number">
+              <AnimatedCounter target={2400} suffix="+" />
+            </span>
+            <span className="cta-stat-label">Happy Customers</span>
+          </div>
+          <div className="cta-stat-divider" />
+          <div className="cta-stat">
+            <span className="cta-stat-number">
+              <AnimatedCounter target={48} suffix="hr" />
+            </span>
+            <span className="cta-stat-label">Fresh Delivery</span>
           </div>
         </div>
       </ScrollReveal>

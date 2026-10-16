@@ -1413,10 +1413,10 @@ html.dark .lead {
 }
 
 /* Override Leaflet defaults to match theme */
-.leaflet-map-pin {
-    background: none !important;
-    border: none !important;
+.map-titles-dark {
+    filter:invert(1) hue-rotate(180deg) brightness(0.8) contrast(0.9);
 }
+
 
 .leaflet-control-zoom a {
     background: var(--brown-800) !important;
