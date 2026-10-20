@@ -1,144 +1,13 @@
 // ============================================================
 // CONTACTSECTION.JSX — Contact Page with Form (Day 11-12)
 // ============================================================
-// A full contact section with a message form, info cards
-// (location, hours, email, phone), social links, and
-// interactive effects (tilt cards, mouse-follow glow).
-//
-// THIS IS THE MOST COMPLEX COMPONENT IN THE PROJECT.
-// Take your time and build it section by section.
-//
-// WHAT YOU WILL LEARN:
-// - Managing complex form state with useState
-// - Form validation and submission handling
-// - useRef for DOM references
-// - useEffect for global event listeners (mouse tracking)
-// - Advanced framer-motion: useMotionValue, useSpring, useTransform
-// - Building a reusable TiltCard sub-component
-// - SVG icons inline in JSX
-// - Conditional rendering for form states (sending, sent, error)
-//
-// CONCEPTS COVERED:
-// - Multiple useState hooks in one component
-// - Event handling: onChange, onBlur, onSubmit, onMouseMove
-// - Controlled form inputs with validation
-// - Async/await with try/catch
-// - Component composition (sub-components in same file)
-// - Inline styles with dynamic values
-//
-// ============================================================
 
-// STEP 1: Imports
-// From "react": import { useState, useEffect, useRef }
-// From "framer-motion": import { motion, useMotionValue, useSpring, useTransform }
-// Import UI components: ScrollReveal, StaggerContainer, StaggerItem,
-//   Separator, Input (+ Textarea), Button
-
-/* --- YOUR IMPORTS GO HERE --- */
 import { useState, useEffect, useRef } from "react";
-import { motion, useMotion, useSpring, useTransform } from "framer-motion";
-import ScrollReveal from "./ui/ScrollReveal";
-import { StaggerContainer, StaggerItem } from "./ui/ScrollReveal";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import ScrollReveal, { StaggerContainer, StaggerItem } from "./ui/ScrollReveal";
 import Separator from "./ui/Separator";
 import Input, { Textarea } from "./ui/Input";
 import Button from "./ui/Button";
-
-// STEP 2: Contact channels data (outside the component)
-// Define an array of contact info objects:
-// const contactChannels = [
-//   {
-//     name: "Visit Our Roastery",
-//     icon: <svg>...</svg>,  // Map pin icon
-//     gradient: "from-amber-700 to-amber-500",
-//     accentColor: "var(--amber)",
-//     detail: "Beans Place, Strasburg, CO 80136",
-//     action: "Get Directions",
-//     href: "https://maps.google.com/?q=Beans+Place+Strasburg+CO"
-//   },
-//   // Add: Opening Hours, Email Us, Call Us
-// ];
-
-/* --- YOUR CONTACT DATA GOES HERE --- */
-
-// STEP 3: TiltCard sub-component (ADVANCED)
-// This creates a 3D tilt effect that follows the mouse.
-//
-// function TiltCard({ children, className, href, target, rel }) {
-//   - Use useRef for the card element
-//   - useMotionValue(0) for x and y mouse positions
-//   - useSpring + useTransform to convert mouse position to rotation
-//   - handleMouse: calculate mouse position relative to card
-//   - handleLeave: reset to center
-//   - Render as <motion.a> if href provided, <motion.div> otherwise
-//   - Apply rotateX, rotateY, and transformPerspective styles
-// }
-
-/* --- YOUR TILTCARD COMPONENT GOES HERE --- */
-
-// STEP 4: ContactFormInline sub-component
-// An animated contact form with validation.
-//
-// function ContactFormInline() {
-//   State:
-//     - formData: { name, email, subject, message }
-//     - status: null | 'sending' | 'sent' | 'error'
-//     - touched: {} (tracks which fields have been visited)
-//
-//   Handlers:
-//     - handleChange: updates formData with spread operator
-//     - handleBlur: marks field as touched
-//     - handleSubmit: validates, simulates send, updates status
-//
-//   JSX: <motion.form> with:
-//     - Header (title + subtitle)
-//     - Name + Email inputs (2-column grid)
-//     - Subject input (full width)
-//     - Message textarea (full width)
-//     - Submit button with 3 states:
-//       sending: spinner + "Sending..."
-//       sent: checkmark + "Message Sent!"
-//       default: "Send Message"
-//     - Error message (conditional)
-// }
-
-/* --- YOUR CONTACTFORMINLINE COMPONENT GOES HERE --- */
-
-// STEP 5: Create and export ContactSection (main component)
-// export default function ContactSection() { ... }
-//
-// State:
-//   - mousePos: { x: 0, y: 0 } for the glowing cursor effect
-//   - sectionRef: useRef(null)
-//
-// useEffect: track mouse position globally
-//   window.addEventListener("mousemove", ...)
-//
-// JSX Structure:
-//   <div className="contact-section-wrap" ref={sectionRef}>
-//
-//     Background effects:
-//       - Three animated orbs (div elements)
-//       - Grid overlay pattern
-//
-//     Content (className="contact-inner"):
-//       Header:
-//         - Animated pill: "Connect & Collaborate"
-//         - <h1>: "GET IN" / "TOUCH"
-//         - Subtitle paragraph
-//         - Separator
-//
-//       Two-column layout (className="contact-layout"):
-//         Left: <ContactFormInline />
-//         Right: Contact info cards + social links
-//           - Map over contactChannels with TiltCard
-//           - Social links row (Instagram, Facebook, X)
-//
-//     Mouse glow effect:
-//       <div className="contact-mouse-glow"
-//         style={{ left: mousePos.x - 192, top: mousePos.y - 192 }} />
-//   </div>
-
-/* --- YOUR COMPONENT CODE GOES HERE --- */
 
 const contactChannels = [
   {
@@ -148,16 +17,16 @@ const contactChannels = [
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth={1.0}
-        className="w-6 h-6"
+        strokeWidth={1.2}
+        className="h-6 w-6"
       >
         <path
-          strokeLikecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
           d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
         ></path>
         <path
-          strokeLikecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
           d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
         />
@@ -177,7 +46,7 @@ const contactChannels = [
         fill="none"
         stroke="currentColor"
         strokeWidth={1.8}
-        className="w-6 h-6"
+        className="h-6 w-6"
       >
         <path
           strokeLinecap="round"
@@ -200,7 +69,7 @@ const contactChannels = [
         fill="none"
         stroke="currentColor"
         strokeWidth={1.8}
-        className="w-6 h-6"
+        className="h-6 w-6"
       >
         <path
           strokeLinecap="round"
@@ -223,7 +92,7 @@ const contactChannels = [
         fill="none"
         stroke="currentColor"
         strokeWidth={1.8}
-        className="w-6 h-6"
+        className="h-6 w-6"
       >
         <path
           strokeLinecap="round"
@@ -240,25 +109,29 @@ const contactChannels = [
   },
 ];
 
-//Tile card with mouse tracking
-function tiltCard({ Children, className, href, target, rel }) {
+function TiltCard({ children, className = "", href, target, rel }) {
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), {
-    stiffness: 200,
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), {
+    stiffness: 180,
     damping: 20,
   });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [6, -6]), {
-    stiffness: 200,
+
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [8, -8]), {
+    stiffness: 180,
     damping: 20,
   });
 
   function handleMouse(e) {
-    const rect = ref.current.getBoundingClientRect();
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+
     x.set((e.clientX - rect.left) / rect.width - 0.5);
-    Y.set((e.clienty - rect.top) / rect.height - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
   }
+
   function handleLeave() {
     x.set(0);
     y.set(0);
@@ -282,107 +155,395 @@ function tiltCard({ Children, className, href, target, rel }) {
   );
 }
 
-// Contact Form with Animations
-function ContactFormInLine() {
+function ContactFormInline() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
-  const [status, setStatus] = useState(null); // null | sending | sent | error
+  const [status, setStatus] = useState(null);
   const [touched, setTouched] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [e.target.name]: true }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (touched[name]) {
+      setTouched((prev) => ({ ...prev, [name]: true }));
+    }
   };
-  const handleBlur = (e) => {
-    e.preventDefault();
-    setTouched({ name: true, email: true, subject: true, message: true });
 
-    if (!formData.name || !formData.email || !formData.message) return;
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const nextTouched = {
+      name: true,
+      email: true,
+      subject: true,
+      message: true,
+    };
+
+    setTouched(nextTouched);
+
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      return;
+    }
 
     setStatus("sending");
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-        setStatus("sent");
-        setFormData({name: "", email: "", subject: "", message: ""});
-        setTouched({});
-        setTimeout(() => setStatus(null), 4000);
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      setStatus("sent");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setTouched({});
+      setTimeout(() => setStatus(null), 4000);
     } catch {
-        setStatus("error");
-        setTimeout(() => setStatus(null), 4000);
+      setStatus("error");
+      setTimeout(() => setStatus(null), 4000);
     }
   };
 
   return (
     <motion.form
-    onSubmit={handleSubmit}
-    className="contact-form-card"
-    initial={{opacity: 0, y: 40}}
-    whileInView={{opactiy: 1, y:0}}
-    viewPort={{once:true}}
-    transition={{duration: 0.6, delay:0.1}}>
-    {/* Form Header */}
-    <div className="mb-6">
-        <h3 className="contact-form-title"> Send a message</h3>
+      onSubmit={handleSubmit}
+      className="contact-form-card"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.1 }}
+    >
+      <div className="mb-6">
+        <h3 className="contact-form-title">Send a message</h3>
         <p className="contact-form-subtitle">
-            We'd love to hear from you. Fill out the form and we'll get back within 24 hours.
+          We'd love to hear from you. Fill out the form and we'll get back
+          within 24 hours.
         </p>
-    </div>
-    <div className="contact-form-grid">
-        <Input
-        label="YourName"
-        id="contact-name"
-        name="name"
-        placeholder="John Doe"
-        className="placeholder:text-white"
-        value={formData.name}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={touched.name && !formData.name ? "Name is Required" : undefined} />
+      </div>
 
+      <div className="contact-form-grid">
         <Input
-        label="Email Address"
-        id="contact-email"
-        name="email"
-        type="email"
-        placeholder="JohnDoe@example.com"
-        className="placeholder:text-white"
-        value={formData.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={touched.name && !formData.name ? "Email is Required" : undefined} />
-    </div>
-
-    <div className="mt-4">
-        <Input 
-        label="Subject"
-        id="contact-subject"
-        name="subject"
-        placeholder="What's this about?"
-        className="placeholder:text-white"
-        value={formData.subject}
-        onChange={handleChange}
+          label="Your Name"
+          id="contact-name"
+          name="name"
+          placeholder="John Doe"
+          className="placeholder:text-white"
+          value={formData.name}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={
+            touched.name && !formData.name.trim()
+              ? "Name is required"
+              : undefined
+          }
         />
-    </div>
 
-    <div className="mt-4">
+        <Input
+          label="Email Address"
+          id="contact-email"
+          name="email"
+          type="email"
+          placeholder="john@example.com"
+          className="placeholder:text-white"
+          value={formData.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={
+            touched.email && !formData.email.trim()
+              ? "Email is required"
+              : undefined
+          }
+        />
+      </div>
+
+      <div className="mt-4">
+        <Input
+          label="Subject"
+          id="contact-subject"
+          name="subject"
+          placeholder="What's this about?"
+          className="placeholder:text-white"
+          value={formData.subject}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </div>
+
+      <div className="mt-4">
         <Textarea
-        label="Message"
-        id="contact-message"
-        name="message"
-        placeholder="Tell us what's on your mind..."
-        rows={5}
-        value={formData.message}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={touched.message && !formData.message ? "Message is required"
-        : undefined}
+          label="Message"
+          id="contact-message"
+          name="message"
+          placeholder="Tell us what's on your mind..."
+          rows={5}
+          value={formData.message}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={
+            touched.message && !formData.message.trim()
+              ? "Message is required"
+              : undefined
+          }
         />
-    </div>
+      </div>
+
+      <div className="mt-6 flex items-center gap-4">
+        <Button
+          type="submit"
+          variant="accent"
+          size="lg"
+          className="contact-form-submit"
+          disabled={status === "sending"}
+        >
+          {status === "sending" ? (
+            <span className="flex items-center gap-2">
+              <svg
+                className="h-4 w-4 animate-spin"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4zm16 0a8 8 0 01-8 8v-4a4 4 0 004-4h4z"
+                />
+              </svg>
+              Sending...
+            </span>
+          ) : status === "sent" ? (
+            <span className="flex items-center gap-2">
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              Message Sent!
+            </span>
+          ) : (
+            "Send Message"
+          )}
+        </Button>
+
+        {status === "error" && (
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-sm text-red-400"
+          >
+            Something went wrong. Please try again.
+          </motion.span>
+        )}
+      </div>
     </motion.form>
-  )
+  );
+}
+
+export default function ContactSection() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (event) =>
+      setMousePos({ x: event.clientX, y: event.clientY });
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return (
+    <div className="contact-section-wrap" ref={sectionRef}>
+      <div className="contact-bg-effects">
+        <div className="contact-bg-orb contact-bg-orb-1" />
+        <div className="contact-bg-orb contact-bg-orb-2" />
+        <div className="contact-bg-orb contact-bg-orb-3" />
+        <div className="contact-bg-grid" />
+      </div>
+
+      <div className="contact-inner">
+        <ScrollReveal animation="fadeUp" className="contact-header">
+          <motion.div
+            className="contact-pill"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <span>Connect &amp; Collaborate</span>
+          </motion.div>
+
+          <h1 className="h1-stack" style={{ color: "var(--cream)" }}>
+            GET IN
+            <br />
+            <span className="muted" style={{ color: "var(--amber)" }}>
+              TOUCH
+            </span>
+          </h1>
+
+          <p
+            className="lead--light"
+            style={{ maxWidth: "52ch", margin: "10px auto 0" }}
+          >
+            Whether you're ordering beans, planning an event, or just saying
+            hello, we'd love to hear from you.
+          </p>
+          <Separator className="mt-4 mb-2 mx-auto max-w-48" />
+        </ScrollReveal>
+
+        <div className="contact-layout">
+          <div className="contact-form-col">
+            <ContactFormInline />
+          </div>
+
+          <div className="contact-info-col">
+            <StaggerContainer className="contact-info-cards" staggerDelay={0.1}>
+              {contactChannels.map((channel) => (
+                <StaggerItem key={channel.name} animation="fadeUp">
+                  <TiltCard
+                    href={channel.href}
+                    target={
+                      channel.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      channel.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className="contact-card-link"
+                  >
+                    <div
+                      className="contact-card-accent"
+                      style={{ background: channel.accentColor }}
+                    />
+                    <div className="contact-card-content">
+                      <div
+                        className={`contact-card-icon bg-gradient-to-br ${channel.gradient}`}
+                      >
+                        {channel.icon}
+                      </div>
+
+                      <div className="contact-card-text">
+                        <h3 className="contact-card-title">{channel.name}</h3>
+                        <p className="contact-card-detail">{channel.detail}</p>
+                      </div>
+
+                      <div className="contact-card-arrow">
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </div>
+
+                      <div className="contact-card-shimmer" />
+                    </div>
+                  </TiltCard>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+
+            <ScrollReveal
+              animation="fadeUp"
+              delay={0.4}
+              className="contact-social-row"
+            >
+              <span className="contact-social-label">Follow Us</span>
+
+              <div className="contact-social-icons">
+                {[
+                  {
+                    name: "Instagram",
+                    href: "https://instagram.com",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-5 w-5"
+                      >
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "Facebook",
+                    href: "https://facebook.com",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-5 w-5"
+                      >
+                        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "X / Twitter",
+                    href: "https://x.com",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-5 w-5"
+                      >
+                        <path d="M13.6823 10.6218L20.2391 3H18.6854L12.9921 9.61788L8.44486 3H3.2002L10.0765 13.0074L3.2002 21H4.75404L10.7663 14.0113L15.5685 21H20.8131L13.6819 10.6218H13.6823ZM11.5541 13.0956L10.8574 12.0991L5.31391 4.16971H7.70053L12.1742 10.5689L12.8709 11.5655L18.6861 19.8835H16.2995L11.5541 13.096V13.0956Z" />
+                      </svg>
+                    ),
+                  },
+                ].map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className="contact-social-link"
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="contact-mouse-glow"
+        style={{
+          left: `${mousePos.x - 192}px`,
+          top: `${mousePos.y - 192}px`,
+        }}
+      />
+    </div>
+  );
 }

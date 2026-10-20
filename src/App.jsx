@@ -37,6 +37,8 @@ import FeaturesSection from "./components/FeaturesSection";
 import ProductShowcase from "./components/ProductShowcase";
 import CtaSection from "./components/CtaSection";
 import AboutSection from "./components/AboutSection";
+import ContactSection from "./components/ContactSection";
+import FooterSection from "./components/FooterSection";
 
 import imgEthiopianHarrar from "./assets/Ethiopian-Harrar-Bag.png";
 
@@ -134,7 +136,7 @@ const productCatalog = [
   },
 ];
 export default function App() {
-  const [cartOpen, setCartOpen] = useState(false);
+  const [, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return "light";
@@ -164,20 +166,6 @@ export default function App() {
     });
   };
 
-  const updateCartQty = (id, delta) => {
-    setCartItems((current) =>
-      current
-        .map((item) =>
-          item.id === id
-            ? { ...item, qty: Math.max(0, item.qty + delta) }
-            : item,
-        )
-        .filter((item) => item.qty > 0),
-    );
-  };
-  const removeFromCart = (id) => {
-    setCartItems((current) => current.filter((item) => item.id !== id));
-  };
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.qty, 0),
     [cartItems],
@@ -225,10 +213,14 @@ export default function App() {
       </section>
 
       {/* Contact */}
-      <section className="bg-cta" id="contact"></section>
+      <section className="bg-cta" id="contact">
+        <ContactSection />
+      </section>
 
       {/* Footer */}
-      <section className="bg-footer"></section>
+      <section className="bg-footer">
+        <FooterSection />
+      </section>
     </div>
   );
 }
