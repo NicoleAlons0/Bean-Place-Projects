@@ -39,6 +39,7 @@ import CtaSection from "./components/CtaSection";
 import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import FooterSection from "./components/FooterSection";
+import ShoppingCart from "./components/ShoppingCart";
 
 import imgEthiopianHarrar from "./assets/Ethiopian-Harrar-Bag.png";
 
@@ -136,7 +137,7 @@ const productCatalog = [
   },
 ];
 export default function App() {
-  const [, setCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return "light";
@@ -166,6 +167,22 @@ export default function App() {
     });
   };
 
+  const updateCartQty = (id, delta) => {
+    setCartItems((current) =>
+      current
+        .map((item) =>
+          item.id === id
+            ? { ...item, qty: Math.max(0, item.qty + delta) }
+            : item,
+        )
+        .filter((item) => item.qty > 0),
+    );
+  };
+
+  const removeFromCart = (id) => {
+    setCartItems((current) => current.filter((item) => item.id !== id));
+  };
+
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.qty, 0),
     [cartItems],
@@ -173,6 +190,15 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* Shopping Cart */}
+      <ShoppingCart
+        isOpen={cartOpen}
+        onToggleCart={toggleCart}
+        items={cartItems}
+        updateQty={updateCartQty}
+        removeItem={removeFromCart}
+      />
+
       {/* NAVBAR */}
       <NavBar
         toggleCart={toggleCart}
@@ -197,6 +223,7 @@ export default function App() {
       <section className="features bg-features" id="shop">
         <FeaturesSection />
       </section>
+
       {/* Product Showcase */}
       <section className="bg-cta">
         <ProductShowcase products={productCatalog} addToCart={addToCart} />

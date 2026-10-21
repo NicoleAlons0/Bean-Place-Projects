@@ -105,7 +105,7 @@ import Separator from "./ui/Separator";
 
 /* --- YOUR COMPONENT CODE GOES HERE --- */
 
-export default function ProductShowcase({ product = [], addToCart }) {
+export default function ProductShowcase({ products = [], addToCart }) {
   return (
     <div className="product-showcase">
       <ScrollReveal animation="fadeUp">
@@ -130,9 +130,9 @@ export default function ProductShowcase({ product = [], addToCart }) {
         </p>
       </ScrollReveal>
       <StaggerContainer staggerDelay={0.1} className="product-grid">
-        {product.map((product) => (
+        {products.map((product) => (
           <StaggerItem key={product.name} animation="fadeUp">
-            <motion.div
+            <Motion.div
               className="product-card"
               whileHover={{ y: -8, transition: { duration: 0.25 } }}
             >
@@ -161,7 +161,7 @@ export default function ProductShowcase({ product = [], addToCart }) {
                   Add to Cart
                 </Button>
               </div>
-            </motion.div>
+            </Motion.div>
           </StaggerItem>
         ))}
       </StaggerContainer>
