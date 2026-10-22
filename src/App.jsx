@@ -212,6 +212,8 @@ export default function App() {
 
   return (
     <div className="app luxury-template modern-cafe-template">
+      <RibbonTicker />
+
       {/* Shopping Cart */}
       <ShoppingCart
         isOpen={cartOpen}
@@ -238,12 +240,9 @@ export default function App() {
         className={`page-view page-view--${currentPath === "/" ? "home" : currentPath.slice(1)}`}
       >
         {currentPath === "/shop" ? (
-          <>
-            <RibbonTicker />
-            <section className="bg-cta shop-section" id="shop">
-              <ProductShowcase products={productCatalog} addToCart={addToCart} />
-            </section>
-          </>
+          <section className="bg-cta shop-section" id="shop">
+            <ProductShowcase products={productCatalog} addToCart={addToCart} />
+          </section>
         ) : currentPath === "/story" ? (
           <section className="bg-cta about-band" id="about">
             <AboutSection />
@@ -259,7 +258,6 @@ export default function App() {
                 <HeroSection onNavigate={navigate} />
               </div>
             </section>
-            <RibbonTicker />
             <section className="features bg-features coffee-carousel-section">
               <FeaturesSection />
             </section>

@@ -3195,3 +3195,174 @@ html.dark .lead {
         animation: none;
     }
 }
+
+.modern-cafe-template .ribbon-ticker {
+    position: relative;
+    display: block;
+    min-height: 48px;
+    padding: 0;
+    border-bottom: 1px solid rgba(245, 241, 233, 0.12);
+    background:
+        radial-gradient(ellipse at 10% 50%, rgba(229, 154, 97, 0.16), transparent 36%),
+        linear-gradient(100deg, #18382f, var(--lux-cocoa-soft, #294b3f) 52%, #18382f);
+}
+
+.modern-cafe-template .ribbon-kicker {
+    position: relative;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: clamp(16px, 4vw, 48px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 18px;
+    border-right: 1px solid rgba(245, 241, 233, 0.2);
+    color: #f4c99f;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.modern-cafe-template .ribbon-kicker-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e59a61;
+    box-shadow: 0 0 12px rgba(229, 154, 97, 0.8);
+}
+
+.modern-cafe-template .ribbon-track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    min-height: 48px;
+    animation: coffee-marquee 42s linear infinite;
+    will-change: transform;
+}
+
+.modern-cafe-template .ribbon-ticker-container {
+    overflow: hidden;
+    border-top: 2px solid rgba(229, 154, 97, 0.55);
+    box-shadow: 0 8px 24px rgba(16, 23, 20, 0.12);
+}
+
+.modern-cafe-template .ribbon-ticker:hover .ribbon-track {
+    animation-play-state: paused;
+}
+
+.modern-cafe-template .ribbon-group {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 26px;
+    padding-right: 26px;
+}
+
+.modern-cafe-template .ribbon-item {
+    display: inline-flex;
+    flex: 0 0 auto;
+    min-height: 42px;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    color: rgba(245, 241, 233, 0.78);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition:
+        color 180ms ease,
+        text-shadow 180ms ease;
+}
+
+.modern-cafe-template .ribbon-bean {
+    color: #e59a61;
+    font-size: 11px;
+    transition: transform 220ms ease;
+}
+
+.modern-cafe-template .ribbon-item:hover {
+    color: #fff8ed;
+    text-shadow: 0 0 14px rgba(229, 154, 97, 0.55);
+}
+
+.modern-cafe-template .ribbon-item:hover .ribbon-bean {
+    transform: rotate(180deg) scale(1.25);
+}
+
+.modern-cafe-template .ribbon-ticker::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 0 auto;
+    width: clamp(28px, 6vw, 80px);
+    background: linear-gradient(90deg, transparent, #18382f);
+    content: "";
+    pointer-events: none;
+}
+
+.modern-cafe-template .ribbon-ticker::before {
+    position: absolute;
+    z-index: 1;
+    inset: 0 auto 0 0;
+    width: clamp(18px, 3vw, 38px);
+    background: linear-gradient(90deg, #18382f, transparent);
+    content: "";
+    pointer-events: none;
+}
+
+@keyframes coffee-marquee {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 520px) {
+    .modern-cafe-template .ribbon-ticker {
+        min-height: 44px;
+    }
+
+    .modern-cafe-template .ribbon-kicker {
+        left: 12px;
+        gap: 6px;
+        padding-right: 10px;
+        font-size: 8px;
+    }
+
+    .modern-cafe-template .ribbon-track {
+        min-height: 44px;
+    }
+
+    .modern-cafe-template .ribbon-group {
+        gap: 18px;
+        padding-right: 18px;
+    }
+
+    .modern-cafe-template .ribbon-item {
+        min-height: 40px;
+        gap: 7px;
+        font-size: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modern-cafe-template .ribbon-track {
+        animation: none;
+        transform: none;
+        will-change: auto;
+    }
+
+    .modern-cafe-template .ribbon-group[aria-hidden="true"] {
+        display: none;
+    }
+
+    .modern-cafe-template .ribbon-group {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 12px;
+    }
+}

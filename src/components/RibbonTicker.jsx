@@ -20,11 +20,6 @@
 //
 // ============================================================
 
-// STEP 1: Import motion from "framer-motion"
-
-/* --- YOUR IMPORTS GO HERE --- */
-import { motion } from "framer-motion";
-
 // STEP 2: Create and export the RibbonTicker component
 // export default function RibbonTicker() { ... }
 //
@@ -37,35 +32,6 @@ import { motion } from "framer-motion";
 //     "Ethiopian Harrar", "Arabian Mocha", "Red Sulawesi"
 //   ];
 //
-// STEP 4: Double the array for seamless looping
-//   const items = [...blends, ...blends];
-//
-//   DISCUSSION: Why duplicate the array?
-//   The CSS animation scrolls the content to the left.
-//   When it reaches the halfway point (the original list),
-//   it resets — and the duplicate creates a seamless loop.
-//
-// STEP 5: Build the JSX
-//   <div className="ribbon-ticker-container">
-//     <div className="ribbon-ticker">
-//       <div className="ribbon-track">
-//         {items.map((name, i) => (
-//           <motion.span
-//             key={i}
-//             className="ribbon-item"
-//             whileHover={{ scale: 1.1, color: "#f0b955" }}
-//             transition={{ type: "spring", stiffness: 300 }}>
-//             {name} <span className="ribbon-dot">diamond symbol here</span>
-//           </motion.span>
-//         ))}
-//       </div>
-//     </div>
-//   </div>
-//
-// NOTE: The scrolling animation is handled by CSS in index.css
-// Look for the @keyframes ribbon-scroll rule.
-
-/* --- YOUR COMPONENT CODE GOES HERE --- */
 export default function RibbonTicker() {
   const blends = [
     "Jamaican Blue Mountain",
@@ -83,21 +49,40 @@ export default function RibbonTicker() {
     "Arabian Mocha",
     "Red Sulawesi",
   ];
-  const items = [...blends, ...blends];
+
+  const renderBlendGroup = (key, isDuplicate = false) => (
+    <div
+      className="ribbon-group"
+      key={key}
+      aria-hidden={isDuplicate ? "true" : undefined}
+    >
+      {blends.map((name) => (
+        <span className="ribbon-item" key={name}>
+          <span className="ribbon-bean" aria-hidden="true">
+            ✦
+          </span>
+          {name}
+        </span>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="ribbon-ticker-container">
-      <div className="ribbon-ticker">
+    <div
+      className="ribbon-ticker-container"
+    >
+      <div
+        className="ribbon-ticker"
+        role="group"
+        aria-label="Featured coffee origins"
+      >
+        <span className="ribbon-kicker">
+          <span className="ribbon-kicker-dot" aria-hidden="true" />
+          Freshly Roasted
+        </span>
         <div className="ribbon-track">
-          {items.map((name, i) => (
-            <motion.span
-              key={i}
-              className="ribbon-item"
-              whileHover={{ scale: 1.1, color: "#f0b955" }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              {name} <span className="ribbon-dot">✦</span>
-            </motion.span>
-          ))}
+          {renderBlendGroup("forward")}
+          {renderBlendGroup("forward-copy", true)}
         </div>
       </div>
     </div>
