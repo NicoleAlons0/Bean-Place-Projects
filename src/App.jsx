@@ -40,6 +40,7 @@ import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import FooterSection from "./components/FooterSection";
 import ShoppingCart from "./components/ShoppingCart";
+import WelcomeIntro from "./welcome.jsx";
 
 import imgEthiopianHarrar from "./assets/Ethiopian-Harrar-Bag.png";
 
@@ -212,6 +213,7 @@ export default function App() {
 
   return (
     <div className="app luxury-template modern-cafe-template">
+      <WelcomeIntro />
       <RibbonTicker />
 
       {/* Shopping Cart */}
@@ -241,6 +243,13 @@ export default function App() {
       >
         {currentPath === "/shop" ? (
           <section className="bg-cta shop-section" id="shop">
+            <div id="playground" aria-hidden="true">
+              <span className="smoke smoke--one" />
+              <span className="smoke smoke--two" />
+              <span className="smoke smoke--three" />
+              <span className="smoke smoke--four" />
+              <span className="smoke smoke--five" />
+            </div>
             <ProductShowcase products={productCatalog} addToCart={addToCart} />
           </section>
         ) : currentPath === "/story" ? (

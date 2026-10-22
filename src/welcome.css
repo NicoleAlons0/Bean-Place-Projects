@@ -1,0 +1,140 @@
+
+/* ===== THE BEAN'S PLACE INTRO ===== */
+
+#coffee-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 7, 4, 0.76),
+      rgba(12, 7, 4, 0.60)
+    ),
+    var(--coffee-intro-background) center / cover no-repeat,
+    #160d08;
+  color: #fff5e6;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.9s ease,
+    visibility 0.9s ease;
+}
+
+#coffee-intro.intro-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#coffee-intro .intro-content {
+  width: 100%;
+  max-width: 900px;
+  animation: coffee-arrive 1.2s ease both;
+}
+
+#coffee-intro .coffee-icon {
+  font-size: clamp(42px, 6vw, 68px);
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 16px #d68b36);
+}
+
+#coffee-intro .welcome-label {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 9px;
+  margin: 0 0 18px;
+}
+
+#coffee-intro h1 {
+  color: #e8a34d;
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 8vw, 100px);
+  font-style: italic;
+  line-height: 1.08;
+  margin: 0 0 25px;
+  text-shadow: 0 0 28px rgba(219, 133, 41, 0.25);
+}
+
+#coffee-intro .tagline {
+  font-family: Arial, sans-serif;
+  font-size: clamp(10px, 1.5vw, 14px);
+  letter-spacing: 3px;
+  line-height: 2;
+  margin-bottom: 44px;
+}
+
+#coffee-intro #enter-site {
+  padding: 19px 34px;
+  border: 2px solid #e8a34d;
+  border-radius: 50px;
+  background: transparent;
+  color: #fff5e6;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 22px rgba(232, 163, 77, 0.18);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+#coffee-intro #enter-site span {
+  margin-left: 12px;
+  color: #e8a34d;
+  font-size: 20px;
+}
+
+#coffee-intro #enter-site:hover {
+  background: #e8a34d;
+  color: #160d08;
+  box-shadow: 0 0 35px rgba(232, 163, 77, 0.5);
+  transform: translateY(-3px);
+}
+
+@keyframes coffee-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  #coffee-intro .welcome-label {
+    letter-spacing: 5px;
+  }
+
+  #coffee-intro .tagline {
+    letter-spacing: 1.5px;
+    margin-bottom: 32px;
+  }
+
+  #coffee-intro #enter-site {
+    padding: 16px 20px;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #coffee-intro,
+  #coffee-intro .intro-content,
+  #coffee-intro #enter-site {
+    animation: none;
+    transition: none;
+  }
+}

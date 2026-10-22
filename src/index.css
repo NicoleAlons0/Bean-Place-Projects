@@ -1476,10 +1476,89 @@ html.dark .lead {
 /* ═══════════ Product Showcase ═══════════ */
 
 .product-showcase {
+    position: relative;
+    z-index: 1;
     max-width: var(--container);
     margin: 0 auto;
     padding: 100px 24px;
     text-align: center;
+}
+
+.shop-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #000;
+}
+
+.shop-section #playground {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.shop-section #playground .smoke {
+    position: absolute;
+    bottom: -200px;
+    width: 200px;
+    height: 200px;
+    margin: -100px 0 0 -100px;
+    background: url("https://www.blog.jonnycornwell.com/wp-content/uploads/2012/07/Smoke10.png")
+        transparent no-repeat 0 0;
+    background-size: contain;
+    opacity: 0;
+    animation: product-showcase-smoking 3s ease-in infinite;
+}
+
+.shop-section #playground .smoke--one {
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shop-section #playground .smoke--two {
+    left: 30%;
+    animation-delay: -0.6s;
+}
+
+.shop-section #playground .smoke--three {
+    left: 50%;
+    animation-delay: -1.2s;
+}
+
+.shop-section #playground .smoke--four {
+    left: 70%;
+    animation-delay: -1.8s;
+}
+
+.shop-section #playground .smoke--five {
+    left: 90%;
+    animation-delay: -2.4s;
+}
+
+@keyframes product-showcase-smoking {
+    0% {
+        opacity: 0.1;
+        bottom: -200px;
+        transform: scale(1) rotateZ(0);
+    }
+    20% {
+        opacity: 1;
+    }
+    90% {
+        bottom: 65%;
+        opacity: 0.8;
+        transform: scale(2.7) rotateZ(18deg);
+    }
+    100% {
+        bottom: 70%;
+        opacity: 0;
+        transform: scale(3) rotateZ(20deg);
+    }
 }
 
 .product-showcase-title {
@@ -3161,9 +3240,26 @@ html.dark .lead {
     border-bottom: 1px solid rgba(245, 241, 233, 0.08);
 }
 
+.modern-cafe-template .shop-section {
+    background: #000;
+}
+
 .modern-cafe-template .shop-section .product-card {
-    border-color: rgba(32, 51, 42, 0.12);
-    background: rgba(255, 255, 255, 0.42);
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.modern-cafe-template .shop-section .product-card-image {
+    background: linear-gradient(145deg, #27211d, #100d0b);
+}
+
+.modern-cafe-template .shop-section .product-card-header h3 {
+    color: var(--cream);
+}
+
+.modern-cafe-template .shop-section .product-origin,
+.modern-cafe-template .shop-section .product-notes {
+    color: rgba(255, 255, 255, 0.65);
 }
 
 .modern-cafe-template .shopping-cart-panel {
@@ -3193,6 +3289,11 @@ html.dark .lead {
 @media (prefers-reduced-motion: reduce) {
     .modern-cafe-template .page-view {
         animation: none;
+    }
+
+    .shop-section #playground .smoke {
+        animation: none;
+        display: none;
     }
 }
 
