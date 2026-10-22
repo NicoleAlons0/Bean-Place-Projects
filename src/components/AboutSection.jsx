@@ -100,19 +100,19 @@ const values = [
   {
     icon: "🌍",
     title: "Direct Trade Origin",
-    describe:
+    description:
       "We partner directly with small farms in Ethiopia, Colombia, Guatemala, and Indonesia. Every bag is fully traceable to the farm it came from.",
   },
   {
     icon: "☕",
     title: "Small-Batch Roasting",
-    describe:
+    description:
       "Our master roaster profiles every bean to unlock it's peak flavor. We roast in 25lb batches for consistency and freshness you can taste.",
   },
   {
     icon: "🚚",
     title: "Roast-To-Order Shipping",
-    describe:
+    description:
       "We don't pre-roast and shelve. Your beans are roasted after you order and shipped within 1-2 days. Free delivery on orders over $50.",
   },
 ];

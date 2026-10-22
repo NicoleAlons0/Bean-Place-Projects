@@ -1,37 +1,3 @@
-// ============================================================
-// FEATURESSECTION.JSX — Scroll-Driven Image Carousel (Day 7-8)
-// ============================================================
-// A gallery of coffee bag images arranged in three rows that
-// move at different speeds as the user scrolls (parallax).
-//
-// WHAT YOU WILL LEARN:
-// - Importing multiple images
-// - Creating a helper component (ImageRow) inside the same file
-// - useRef to reference a DOM element
-// - useEffect with scroll event listeners
-// - Mathematical calculations for scroll-based animation
-// - Component props (images, speed, offset)
-//
-// CONCEPTS COVERED:
-// - Passing props to child components
-// - Default parameter values in function signatures
-// - State arrays: useState([0, 0, 0])
-// - getBoundingClientRect() for element position
-// - Math.max() and Math.min() for clamping values
-// - Inline styles with the style prop
-//
-// ============================================================
-
-// STEP 1: Imports
-// From "react": import { useEffect, useRef, useState }
-// Import all 15 coffee bag images from ../assets/
-//   imgRedSulawesi, imgUrigacheffe, imgTanzaniaPeaberry,
-//   imgPanamaGeisha, imgVietnameserobusta, imgBrazilianSantos,
-//   imgCostaRicaTarrazu, imgGuatemalaAntigua, imgKenyaAA,
-//   imgSumatraMandheling, imgKona, imgJamaicanBlueMountain,
-//   imgColombianSupremo, imgEthiopianHarrar, imgArabianMocha
-
-/* --- YOUR IMPORTS GO HERE --- */
 import { useEffect, useRef, useState } from "react";
 import imgRedSulawesi from "../assets/Red-Sulawesi-Bag.png";
 import imgUrigacheffe from "../assets/Urigacheffe-Bag.png";
@@ -49,176 +15,238 @@ import imgBrazilianSantos from "../assets/Brazilian-Santos-Bag.png";
 import imgArabianMocha from "../assets/Arabian-Mocha-Bag.png";
 import imgColombianSupremo from "../assets/Colombian-Supremo-Bag.png";
 
-// STEP 2: Define three row arrays (outside the component)
-// Each row contains the same images but in different orders.
-// This creates visual variety in the carousel.
-//
-// const row1 = [imgJamaicanBlueMountain, imgEthiopianHarrar, ...];
-// const row2 = [imgKenyaAA, imgSumatraMandheling, ...];
-// const row3 = [imgGuatemalaAntigua, imgJamaicanBlueMountain, ...];
-
-/* --- YOUR ROW ARRAYS GO HERE --- */
-
-// STEP 3: ImageRow helper component
-// function ImageRow({ images, speed = -0.25, offset = 0 }) { ... }
-//
-// This component renders a single row of images.
-//   - Double the images array: const doubled = [...images, ...images];
-//   - Return a div with className="carousel-row"
-//   - Use inline style to apply horizontal offset:
-//     style={{ transform: `translate3d(${offset}px, 0, 0)` }}
-//   - Map over doubled to render each image in a card:
-//     <div className="carousel-card">
-//       <img src={src} className="carousel-image" loading="lazy" />
-//     </div>
-//
-// DISCUSSION: What does loading="lazy" do?
-// It tells the browser to only load images when they're
-// about to enter the viewport, improving performance.
-
-/* --- YOUR IMAGEROW COMPONENT GOES HERE --- */
-
-// STEP 4: Create and export FeaturesSection
-// export default function FeaturesSection() { ... }
-//
-// Inside the component:
-//   A) const sectionRef = useRef(null);
-//   B) const [offsets, setOffsets] = useState([0, 0, 0]);
-//
-//   C) useEffect that adds a scroll listener:
-//      - Get the section's bounding rect
-//      - Calculate scroll progress (0 to 1) based on position
-//      - Update offsets array: each row moves differently
-//        Row 1: slides left
-//        Row 2: slides right (starts offset left)
-//        Row 3: slides left slower
-//
-//   D) JSX:
-//      <section className="carousel-gallery-section" ref={sectionRef}>
-//        <div className="carousel-gallery-container">
-//          <ImageRow images={row1} offset={offsets[0]} />
-//          <ImageRow images={row2} offset={offsets[1]} />
-//          <ImageRow images={row3} offset={offsets[2]} />
-//        </div>
-//      </section>
-
-/* --- YOUR COMPONENT CODE GOES HERE --- */
-const row1 = [
-  imgJamaicanBlueMountain,
-  imgEthiopianHarrar,
-  imgGuatemalaAntigua,
-  imgTanzaniaPeaberry,
-  imgColombianSupremo,
-  imgVietnameserobusta,
-  imgKona,
-  imgArabianMocha,
-  imgKenyaAA,
-  imgUrigacheffe,
-  imgSumatraMandheling,
-  imgPanamaGeisha,
-  imgRedSulawesi,
-  imgCostaRicaTarrazu,
-  imgBrazilianSantos,
-];
-const row2 = [
-  imgKenyaAA,
-  imgSumatraMandheling,
-  imgVietnameserobusta,
-  imgArabianMocha,
-  imgPanamaGeisha,
-  imgGuatemalaAntigua,
-  imgJamaicanBlueMountain,
-  imgColombianSupremo,
-  imgUrigacheffe,
-  imgTanzaniaPeaberry,
-  imgEthiopianHarrar,
-  imgKona,
-  imgRedSulawesi,
-  imgBrazilianSantos,
-  imgCostaRicaTarrazu,
+const coffees = [
+  { name: "Jamaican Blue Mountain", image: imgJamaicanBlueMountain },
+  { name: "Ethiopian Harrar", image: imgEthiopianHarrar },
+  { name: "Guatemala Antigua", image: imgGuatemalaAntigua },
+  { name: "Tanzania Peaberry", image: imgTanzaniaPeaberry },
+  { name: "Colombian Supremo", image: imgColombianSupremo },
+  { name: "Vietnamese Robusta", image: imgVietnameserobusta },
+  { name: "Kona", image: imgKona },
+  { name: "Arabian Mocha", image: imgArabianMocha },
+  { name: "Kenya AA", image: imgKenyaAA },
+  { name: "Urigacheffe", image: imgUrigacheffe },
+  { name: "Sumatra Mandheling", image: imgSumatraMandheling },
+  { name: "Panama Geisha", image: imgPanamaGeisha },
+  { name: "Red Sulawesi", image: imgRedSulawesi },
+  { name: "Costa Rica Tarrazu", image: imgCostaRicaTarrazu },
+  { name: "Brazilian Santos", image: imgBrazilianSantos },
 ];
 
-const row3 = [
-  imgGuatemalaAntigua,
-  imgJamaicanBlueMountain,
-  imgEthiopianHarrar,
-  imgKona,
-  imgUrigacheffe,
-  imgTanzaniaPeaberry,
-  imgKenyaAA,
-  imgColombianSupremo,
-  imgVietnameserobusta,
-  imgSumatraMandheling,
-  imgPanamaGeisha,
-  imgArabianMocha,
-  imgRedSulawesi,
-  imgCostaRicaTarrazu,
-  imgBrazilianSantos,
-];
-function ImageRow({ images, offset = 0 }) {
-  // we are going to double the images so the row is wide enough to never show gaps.
-  const doubled = [...images, ...images];
-
+function ReelDigit({ value }) {
   return (
-    <div
-      className="carousel-row"
-      style={{ transform: `translate3d(${offset}px, 0, 0)` }}
-    >
-      {doubled.map((src, index) => (
-        <div className="carousel-card" key={`${index}`}>
-          <img
-            src={src}
-            alt={`Coffee bag ${(index % images.length) + 1}`}
-            className="carousel-image"
-            loading="lazy"
-          />
-        </div>
-      ))}
-    </div>
+    <span className="circular-carousel__digit" aria-hidden="true">
+      <span
+        className="circular-carousel__reel"
+        style={{ transform: `translateY(-${value}em)` }}
+      >
+        {Array.from({ length: 10 }, (_, digit) => (
+          <span key={digit}>{digit}</span>
+        ))}
+      </span>
+    </span>
   );
 }
 
 export default function FeaturesSection() {
-  const sectionRef = useRef(null);
-  const [offsets, setOffsets] = useState([0, 0, 0]);
+  const carouselRef = useRef(null);
+  const dragRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window === "undefined" ? 1200 : window.innerWidth,
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const viewH = window.innerHeight;
-
-      // Progress: 0 when section enters bottom, 1 when it leaves the top
-      const progress = 1 - rect.bottom / (viewH + rect.height);
-      const p = Math.max(0, Math.min(1, progress));
-
-      // Each row, over at different speeds/ directions based on scroll progress
-      // Scale ranges to viewport width so it works with all screen sizes.
-
-      const range = Math.min(window.innerWidth * 0.5, 600);
-      setOffsets([
-        -p * range,
-        // row 1: slides left
-        p * range - range,
-        // row 2: slides right (starts offset left)
-        -p * range * 0.7,
-        // Row 3: slides left slower
-      ]);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const cardWidth = Math.min(220, Math.max(150, viewportWidth * 0.2));
+  const cardHeight = cardWidth * 1.45;
+  const angle = 360 / coffees.length;
+  const radius = cardWidth / (2 * Math.tan(Math.PI / coffees.length));
+
+  const showPrevious = () =>
+    setActiveIndex((current) => (current - 1 + coffees.length) % coffees.length);
+  const showNext = () =>
+    setActiveIndex((current) => (current + 1) % coffees.length);
+
+  const handlePointerDown = (event) => {
+    if (event.target instanceof HTMLElement && event.target.closest("button")) {
+      return;
+    }
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsDragging(true);
+  };
+
+  const handlePointerUp = (event) => {
+    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
+
+    const distance = event.clientX - dragRef.current.startX;
+    dragRef.current = null;
+    setIsDragging(false);
+
+    if (Math.abs(distance) > 30) {
+      const steps = Math.max(
+        1,
+        Math.round(Math.abs(distance) / (cardWidth * 0.6)),
+      );
+      setActiveIndex((current) =>
+        (current + (distance < 0 ? steps : -steps) + coffees.length * steps) %
+        coffees.length,
+      );
+    }
+  };
+
+  const handlePointerCancel = () => {
+    dragRef.current = null;
+    setIsDragging(false);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showNext();
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showPrevious();
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      setActiveIndex(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      setActiveIndex(coffees.length - 1);
+    }
+  };
+
+  const activeCoffee = coffees[activeIndex];
+  const currentCount = String(activeIndex + 1);
+
   return (
-    <section className="carousel-gallery-section" ref={sectionRef}>
-      <div className="carousel-gallery-container">
-        <ImageRow images={row1} offset={offsets[0]} />
-        <ImageRow images={row2} offset={offsets[1]} />
-        <ImageRow images={row3} offset={offsets[2]} />
+    <div
+      ref={carouselRef}
+      className="circular-carousel"
+      data-axis="y"
+      data-shape="panorama"
+      data-ready
+      data-draggable
+      data-dragging={isDragging ? "" : undefined}
+      role="region"
+      aria-label="Coffee collection"
+      aria-roledescription="carousel"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
+      onLostPointerCapture={handlePointerCancel}
+    >
+      <div className="circular-carousel__view">
+        <div className="circular-carousel__stage">
+          <div
+            className="circular-carousel__camera"
+            style={{ perspective: `${Math.max(900, radius * 2.2)}px` }}
+          >
+            <div
+              className="circular-carousel__ring"
+              style={{
+                transform: `translateZ(-${radius}px) rotateY(${
+                  -activeIndex * angle
+                }deg)`,
+              }}
+            >
+              {coffees.map((coffee, index) => {
+                const relativeAngle = (((index - activeIndex) * angle) % 360);
+                const depth = (1 - Math.cos((relativeAngle * Math.PI) / 180)) / 2;
+
+                return (
+                  <div
+                    className="circular-carousel__card"
+                    key={coffee.name}
+                    style={{
+                      transform: `rotateY(${index * angle}deg) translateZ(${radius}px)`,
+                    }}
+                    aria-hidden={index !== activeIndex}
+                    aria-roledescription="slide"
+                    aria-label={`${index + 1} of ${coffees.length}: ${coffee.name}`}
+                  >
+                    <div
+                      className="circular-carousel__tile"
+                      style={{
+                        width: `${cardWidth}px`,
+                        height: `${cardHeight}px`,
+                        marginLeft: `${-cardWidth / 2}px`,
+                        marginTop: `${-cardHeight / 2}px`,
+                        borderRadius: "var(--cc-radius)",
+                        "--cc-depth": depth * 0.72,
+                      }}
+                    >
+                      <div
+                        className="circular-carousel__frame"
+                        style={{ height: `${cardHeight}px` }}
+                      >
+                        <img
+                          className="circular-carousel__photo"
+                          src={coffee.image}
+                          alt=""
+                          style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
+                          draggable="false"
+                          loading={Math.abs(index - activeIndex) < 3 ? "eager" : "lazy"}
+                        />
+                      </div>
+                      <div className="circular-carousel__shade" />
+                      <div className="circular-carousel__inner" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="circular-carousel__controls">
+          <button
+            className="circular-carousel__control"
+            type="button"
+            onClick={showPrevious}
+            aria-label="Show previous coffee"
+          >
+            <span aria-hidden="true">&lsaquo;</span>
+          </button>
+          <button
+            className="circular-carousel__control"
+            type="button"
+            onClick={showNext}
+            aria-label="Show next coffee"
+          >
+            <span aria-hidden="true">&rsaquo;</span>
+          </button>
+        </div>
+
+        <div className="circular-carousel__caption" aria-hidden="true">
+          <span className="circular-carousel__title">
+            {activeCoffee.name}
+          </span>
+          <span className="circular-carousel__count">
+            <span className="circular-carousel__digits">
+              {Array.from(currentCount, (digit, index) => (
+                <ReelDigit key={`${index}-${currentCount.length}`} value={Number(digit)} />
+              ))}
+            </span>
+            <span className="circular-carousel__slash">/</span>
+            {coffees.length}
+          </span>
+        </div>
       </div>
-    </section>
+      <span className="circular-carousel__live" aria-live="polite" aria-atomic="true">
+        {activeCoffee.name}, {activeIndex + 1} of {coffees.length}
+      </span>
+    </div>
   );
 }

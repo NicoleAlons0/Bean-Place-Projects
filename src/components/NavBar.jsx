@@ -85,12 +85,23 @@ import Button from "./ui/Button";
 //   Inside: nav links + Button, each calling closeMenu onClick
 
 /* --- YOUR COMPONENT CODE GOES HERE --- */
-export default function NavBar({ toggleCart, theme, onToggleTheme }) {
+export default function NavBar({
+  toggleCart,
+  theme,
+  onToggleTheme,
+  currentPath = "/",
+  onNavigate,
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   // container = menuOpen, function to update the container = setMenuOpen, current value = false.
   const [scrolled, setScrolled] = useState(false);
   // container = scrolled, function to update the container = setScrolled, current value = false.
   const closeMenu = () => setMenuOpen(false);
+  const handleRouteClick = (path) => (event) => {
+    event.preventDefault();
+    closeMenu();
+    onNavigate?.(path);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -108,7 +119,12 @@ export default function NavBar({ toggleCart, theme, onToggleTheme }) {
       {/* motion.header is a root element which is a third-party component from framer-motion*/}
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3  md:px-8">
         {/* Brand */}
-        <a href="#home" className="brand">
+        <a
+          href="/"
+          className="brand"
+          onClick={handleRouteClick("/")}
+          aria-label="The Beans Place home"
+        >
           <img
             src={logo}
             alt="Beans Place Logo"
@@ -118,10 +134,34 @@ export default function NavBar({ toggleCart, theme, onToggleTheme }) {
 
         {/* Desktop Nav */}
         <nav className="nav-links hidden items-center gap-10 md:flex">
-          <a href="#home">Home</a>
-          <a href="#shop">Shop Coffee</a>
-          <a href="#about">Our Story</a>
-          <a href="#contact">Contact</a>
+          <a
+            href="/"
+            onClick={handleRouteClick("/")}
+            aria-current={currentPath === "/" ? "page" : undefined}
+          >
+            Home
+          </a>
+          <a
+            href="/shop"
+            onClick={handleRouteClick("/shop")}
+            aria-current={currentPath === "/shop" ? "page" : undefined}
+          >
+            Shop Coffee
+          </a>
+          <a
+            href="/story"
+            onClick={handleRouteClick("/story")}
+            aria-current={currentPath === "/story" ? "page" : undefined}
+          >
+            Our Story
+          </a>
+          <a
+            href="/contact"
+            onClick={handleRouteClick("/contact")}
+            aria-current={currentPath === "/contact" ? "page" : undefined}
+          >
+            Contact
+          </a>
         </nav>
 
         {/* Desktop CTA */}
@@ -173,22 +213,29 @@ export default function NavBar({ toggleCart, theme, onToggleTheme }) {
           >
             <nav className="flex flex-col gap-4 px-6 pb-6 pt-2">
               <a
-                href="#home"
-                onClick={closeMenu}
+                href="/"
+                onClick={handleRouteClick("/")}
                 className="text-base font-semibold"
               >
                 Home
               </a>
               <a
-                href="#shop"
-                onClick={closeMenu}
+                href="/shop"
+                onClick={handleRouteClick("/shop")}
                 className="text-base font-semibold"
               >
                 Shop Coffee
               </a>
               <a
-                href="#contact"
-                onClick={closeMenu}
+                href="/story"
+                onClick={handleRouteClick("/story")}
+                className="text-base font-semibold"
+              >
+                Our Story
+              </a>
+              <a
+                href="/contact"
+                onClick={handleRouteClick("/contact")}
                 className="text-base font-semibold"
               >
                 Contact

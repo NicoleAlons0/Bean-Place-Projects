@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import Button from "./ui/Button";
+import RippleDistortion from "./ui/RippleDistortion";
 
 export default function ShoppingCart({
   isOpen,
@@ -52,7 +53,10 @@ export default function ShoppingCart({
         <div className="shopping-cart-body">
           {items.length ? (
             items.map((item) => (
-              <div className="shopping-cart-item" key={item.id}>
+              <RippleDistortion
+                className="shopping-cart-item"
+                key={item.id}
+              >
                 <div>
                   <p className="shopping-cart-item-name">{item.name}</p>
                   <p className="shopping-cart-item-price">
@@ -64,6 +68,7 @@ export default function ShoppingCart({
                     type="button"
                     className="shopping-cart-qty"
                     onClick={() => updateQty(item.id, -1)}
+                    aria-label={`Decrease ${item.name} quantity`}
                   >
                     -
                   </button>
@@ -72,6 +77,7 @@ export default function ShoppingCart({
                     type="button"
                     className="shopping-cart-qty"
                     onClick={() => updateQty(item.id, 1)}
+                    aria-label={`Increase ${item.name} quantity`}
                   >
                     +
                   </button>
@@ -84,7 +90,7 @@ export default function ShoppingCart({
                     ×
                   </button>
                 </div>
-              </div>
+              </RippleDistortion>
             ))
           ) : (
             <p className="shopping-cart-empty">Your cart is empty.</p>

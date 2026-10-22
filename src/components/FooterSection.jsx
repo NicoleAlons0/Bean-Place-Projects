@@ -84,22 +84,22 @@ import ScrollReveal from "./ui/ScrollReveal";
 /* --- YOUR COMPONENT CODE GOES HERE --- */
 const navigation = {
   shop: [
-    { name: "All Coffee", href: "#shop" },
-    { name: "Single Origin", href: "#shop" },
-    { name: "Blends", href: "#shop" },
-    { name: "Subscriptions", href: "#shop" },
+    { name: "All Coffee", href: "/shop" },
+    { name: "Single Origin", href: "/shop" },
+    { name: "Blends", href: "/shop" },
+    { name: "Subscriptions", href: "/shop" },
   ],
   company: [
-    { name: "About", href: "#about" },
-    { name: "Our Roastery", href: "#about" },
+    { name: "About", href: "/story" },
+    { name: "Our Roastery", href: "/story" },
     { name: "Careers", href: "#" },
     { name: "Press", href: "#" },
   ],
   support: [
-    { name: "Contact Us", href: "#contact" },
+    { name: "Contact Us", href: "/contact" },
     { name: "Shipping & Returns", href: "#" },
     { name: "FAQ", href: "#" },
-    { name: "Wholesale", href: "#contact" },
+    { name: "Wholesale", href: "/contact" },
   ],
   social: [
     {
@@ -206,9 +206,28 @@ function LocationMap() {
   );
 }
 
-export default function FooterSection() {
+export default function FooterSection({ onNavigate }) {
+  const handleInternalNavigation = (event) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    const link = event.target.closest("a[href^='/']");
+    if (!link) return;
+
+    event.preventDefault();
+    onNavigate?.(link.getAttribute("href"));
+  };
+
   return (
-    <footer className="footer">
+    <footer className="footer" onClick={handleInternalNavigation}>
       <div className="mx-auto max-w-7x1 px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32 2xl:max-w-400">
         {/* Map */}
         <ScrollReveal animation="fadeUp">

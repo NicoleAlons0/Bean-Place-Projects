@@ -96,7 +96,7 @@ const perks = [
   { icon: "♻️", label: "Eco-Friendly Bags" },
 ];
 
-export default function CtaSection() {
+export default function CtaSection({ onNavigate }) {
   return (
     <div className="cta-section">
       <ScrollReveal animation="fadeUp" delay={0}>
@@ -138,10 +138,18 @@ export default function CtaSection() {
 
       <ScrollReveal animation="fadeUp" delay={0.15}>
         <div className="cta-buttons">
-          <Button variant="accent" size="lg">
+          <Button
+            variant="accent"
+            size="lg"
+            onClick={() => onNavigate?.("/shop")}
+          >
             Order Now
           </Button>
-          <Button variant="ghost" size="lg">
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={() => onNavigate?.("/shop")}
+          >
             View Full Menu
           </Button>
         </div>

@@ -136,9 +136,15 @@ const productCatalog = [
     badge: "New",
   },
 ];
+
+const getCurrentPath = () => window.location.pathname.replace(/\/+$/, "") || "/";
+
 export default function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [currentPath, setCurrentPath] = useState(() =>
+    typeof window === "undefined" ? "/" : getCurrentPath(),
+  );
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return "light";
     const savedTheme = window.localStorage.getItem("theme");
@@ -152,6 +158,22 @@ export default function App() {
     document.documentElement.classList.toggle("dark", theme === "dark");
     window.localStorage.setItem("theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    const handlePopState = () => setCurrentPath(getCurrentPath());
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const navigate = (path) => {
+    const nextPath = path.replace(/\/+$/, "") || "/";
+    if (getCurrentPath() !== nextPath) {
+      window.history.pushState({}, "", nextPath);
+    }
+    setCurrentPath(nextPath);
+    setCartOpen(false);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
 
   const toggleCart = () => setCartOpen((open) => !open);
 
@@ -189,7 +211,7 @@ export default function App() {
   );
 
   return (
-    <div className="app">
+    <div className="app luxury-template modern-cafe-template">
       {/* Shopping Cart */}
       <ShoppingCart
         isOpen={cartOpen}
@@ -204,49 +226,53 @@ export default function App() {
         toggleCart={toggleCart}
         cartCount={cartCount}
         theme={theme}
+        currentPath={currentPath}
+        onNavigate={navigate}
         onToggleTheme={() =>
           setTheme((current) => (current === "light" ? "dark" : "light"))
         }
       />
 
-      {/* Hero */}
-      <section className="hero bg-hero">
-        <div className="hero-grid">
-          <HeroSection />
-        </div>
-      </section>
-
-      {/* Ribbon Ticker */}
-      <RibbonTicker />
-
-      {/* Feature / Carousel */}
-      <section className="features bg-features" id="shop">
-        <FeaturesSection />
-      </section>
-
-      {/* Product Showcase */}
-      <section className="bg-cta">
-        <ProductShowcase products={productCatalog} addToCart={addToCart} />
-      </section>
-
-      {/* CTA */}
-      <section className="bg-cta">
-        <CtaSection />
-      </section>
-
-      {/* About */}
-      <section className="bg-cta" id="about">
-        <AboutSection />
-      </section>
-
-      {/* Contact */}
-      <section className="bg-cta" id="contact">
-        <ContactSection />
-      </section>
+      <main
+        key={currentPath}
+        className={`page-view page-view--${currentPath === "/" ? "home" : currentPath.slice(1)}`}
+      >
+        {currentPath === "/shop" ? (
+          <>
+            <RibbonTicker />
+            <section className="bg-cta shop-section" id="shop">
+              <ProductShowcase products={productCatalog} addToCart={addToCart} />
+            </section>
+          </>
+        ) : currentPath === "/story" ? (
+          <section className="bg-cta about-band" id="about">
+            <AboutSection />
+          </section>
+        ) : currentPath === "/contact" ? (
+          <section className="bg-cta contact-band" id="contact">
+            <ContactSection />
+          </section>
+        ) : (
+          <>
+            <section className="hero bg-hero home-hero">
+              <div className="hero-grid">
+                <HeroSection onNavigate={navigate} />
+              </div>
+            </section>
+            <RibbonTicker />
+            <section className="features bg-features coffee-carousel-section">
+              <FeaturesSection />
+            </section>
+            <section className="bg-cta cta-band">
+              <CtaSection onNavigate={navigate} />
+            </section>
+          </>
+        )}
+      </main>
 
       {/* Footer */}
-      <section className="bg-footer">
-        <FooterSection />
+      <section className="bg-footer footer-band">
+        <FooterSection onNavigate={navigate} />
       </section>
     </div>
   );
